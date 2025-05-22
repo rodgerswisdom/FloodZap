@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "name": "Shelter A",
+        "location": {
+            "latitude": 12.345678,
+            "longitude": 98.765432
+        },
+        "capacity": 100,
+        "status": "open"
+    },
+    {
+        "id": 2,
+        "name": "Shelter B",
+        "location": {
+            "latitude": 23.456789,
+            "longitude": 87.654321
+        },
+        "capacity": 50,
+        "status": "closed"
+    },
+    {
+        "id": 3,
+        "name": "Shelter C",
+        "location": {
+            "latitude": 34.567890,
+            "longitude": 76.543210
+        },
+        "capacity": 75,
+        "status": "open"
+    },
+    {
+        "id": 4,
+        "name": "Shelter D",
+        "location": {
+            "latitude": 45.678901,
+            "longitude": 65.432109
+        },
+        "capacity": 200,
+        "status": "open"
+    }
+]
