@@ -1,23 +1,14 @@
 
 MAIN FEATURES
 ===========================================
-1. ai powered community-responder bridge
-  - community report flood impact
-  - bridges communities and responders, reducing response time from hours to minutes
+- AT USSD -done
+- Watson X Rag
+- Prioritization Engine
+- Vector Database
+- LLM Embedding
+- Risk Assessment Engine
 
-  2. stakeholder dashboard
-   - flask + bootstrap
-   - lists community reported needs
-   - flood risk alert
-   - evacuation status
-   - community queries
-   -->NDMA/KRCS for evacuation/resque, KMD/WRA for monitoring, community leaders for local coordination
---> Enables stakeholders to prioritize evacuations
 
-SUPPORTING FEATURES
-==================================================
-1. Flood Risk alert - ai generated alerts
-2. Evacuation plan - personalized routes via USSD
-3. Recovery tips - post flood advice
-4. Resilience points - Gamification and encouraging community based participation
-5. Ask anyhting - user queries
+send ussd - > Process data + AI -> Give Evacuation Plan -> Update Stakeholder Dashboard
+
+

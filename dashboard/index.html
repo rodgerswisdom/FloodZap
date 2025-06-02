@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeNow - Disaster Coordination Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-900 min-h-screen flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gradient-to-b from-blue-900 to-blue-700 text-white p-6 space-y-6 shadow-xl">
+        <div class="text-center">
+            <h1 class="text-3xl font-extrabold tracking-tight">SafeNow</h1>
+            <p class="text-sm text-blue-200">Disaster Coordination</p>
+        </div>
+        <nav class="space-y-4 text-sm font-medium">
+            <a href="./index.html" class="block px-4 py-2 rounded-lg hover:bg-blue-600 transition">Dashboard</a>
+            <a href="./incidents.html" class="block px-4 py-2 rounded-lg hover:bg-blue-600 transition">Incident Reports</a>
+            <a href="./analytics.html" class="block px-4 py-2 rounded-lg hover:bg-blue-600 transition">Analytics</a>
+            <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-600 transition">Settings</a>
+            <a href="#" class="block px-4 py-2 mt-6 rounded-lg bg-blue-600 hover:bg-blue-500 transition text-center font-semibold">Log Out</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+        <header class="mb-8">
+            <h1 class="text-4xl font-bold mb-2">Dashboard Overview</h1>
+            <p class="text-gray-600">Real-time Disaster Coordination Metrics</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-4 rounded-2xl shadow-md">
+                <h2 class="text-xl font-semibold mb-2">Total Incidents</h2>
+                <p id="total-incidents" class="text-3xl font-bold text-blue-600">0</p>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-md">
+                <h2 class="text-xl font-semibold mb-2">High Priority</h2>
+                <p id="high-priority" class="text-3xl font-bold text-red-600">0</p>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-md">
+                <h2 class="text-xl font-semibold mb-2">Rescued</h2>
+                <p id="rescued" class="text-3xl font-bold text-green-600">0</p>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-md">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Incident Status Overview</h2>
+            <canvas id="statusChart" height="100"></canvas>
+        </div>
+    </main>
+
+    <script>
+        const mockData = [
+            { location: "Budalangi", profile: "Elderly", stranded: 20, priority: "High", action: "Evacuate to Shelter A", status: "Pending" },
+            { location: "Kibera", profile: "Children", stranded: 15, priority: "Medium", action: "Send Food & Water", status: "In-Progress" },
+            { location: "Mathare", profile: "Mixed", stranded: 50, priority: "Low", action: "Monitor", status: "Rescued" },
+            { location: "Makongeni", profile: "Disabled", stranded: 10, priority: "High", action: "Immediate Airlift", status: "In-Progress" },
+            { location: "Dandora", profile: "Families", stranded: 35, priority: "Medium", action: "Evacuate to Shelter B", status: "Pending" }
+        ];
+
+        function loadIncidents() {
+            let highPriorityCount = 0;
+            let rescuedCount = 0;
+
+            mockData.forEach(incident => {
+                if (incident.priority === "High") highPriorityCount++;
+                if (incident.status === "Rescued") rescuedCount++;
+            });
+
+            document.getElementById("total-incidents").innerText = mockData.length;
+            document.getElementById("high-priority").innerText = highPriorityCount;
+            document.getElementById("rescued").innerText = rescuedCount;
+
+            updateChart();
+        }
+
+        let statusChart;
+        function updateChart() {
+            const statusCounts = { "Pending": 0, "In-Progress": 0, "Rescued": 0 };
+            mockData.forEach(incident => statusCounts[incident.status]++);
+
+            const data = {
+                labels: Object.keys(statusCounts),
+                datasets: [{
+                    label: 'Status Breakdown',
+                    data: Object.values(statusCounts),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(75, 192, 192, 0.8)'
+                    ],
+                    borderRadius: 6,
+                    barPercentage: 0.6,
+                    categoryPercentage: 0.6
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1f2937',
+                            titleColor: '#ffffff',
+                            bodyColor: '#ffffff'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#4b5563', font: { weight: '500' } }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#e5e7eb' },
+                            ticks: { color: '#4b5563' }
+                        }
+                    }
+                }
+            };
+
+            if (statusChart) statusChart.destroy();
+            const ctx = document.getElementById('statusChart').getContext('2d');
+            statusChart = new Chart(ctx, config);
+        }
+
+        loadIncidents();
+        setInterval(loadIncidents, 15000);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Reports - SafeNow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gradient-to-b from-blue-900 to-blue-700 text-white p-6 space-y-6 shadow-xl">
+        <div class="text-center">
+            <h1 class="text-3xl font-extrabold tracking-tight">SafeNow</h1>
+            <p class="text-sm text-blue-200">Disaster Coordination</p>
+        </div>
+        <nav class="space-y-4 text-sm font-medium">
+            <a href="./index.html" class="block px-4 py-2 rounded-lg hover:bg-blue-600 transition">Dashboard</a>
+            <a href="./incidents.html" class="block px-4 py-2 rounded-lg bg-blue-600">Incident Reports</a>
+            <a href="./analytics.html" class="block px-4 py-2 rounded-lg hover:bg-blue-600 transition">Analytics</a>
+            <a href="#" class="block px-4 py-2 rounded-lg hover:bg-blue-600 transition">Settings</a>
+            <a href="#" class="block px-4 py-2 mt-6 rounded-lg bg-blue-600 hover:bg-blue-500 transition text-center font-semibold">Log Out</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+        <header class="mb-8">
+            <h1 class="text-4xl font-bold mb-2">Incident Reports</h1>
+            <p class="text-gray-600">Live feed of all reported flood incidents.</p>
+        </header>
+
+        <div class="bg-white p-4 rounded-2xl shadow-md overflow-x-auto">
+            <table class="min-w-full text-sm text-left border border-gray-200">
+                <thead class="bg-gray-100 text-gray-600 uppercase tracking-wider">
+                    <tr>
+                        <th class="px-6 py-3 border-b border-gray-200">Location</th>
+                        <th class="px-6 py-3 border-b border-gray-200">Victim Profile</th>
+                        <th class="px-6 py-3 border-b border-gray-200"># Stranded</th>
+                        <th class="px-6 py-3 border-b border-gray-200">Priority</th>
+                        <th class="px-6 py-3 border-b border-gray-200">Action</th>
+                        <th class="px-6 py-3 border-b border-gray-200">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="incident-table-body" class="divide-y divide-gray-100"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        const mockData = [
+            { location: "Budalangi", profile: "Pregnant Woman", stranded: 1, priority: "High", action: "Evacuate to Friend Church Budalangi", status: "In-Progress" },
+            { location: "Kibera", profile: "Children", stranded: 15, priority: "Medium", action: "Send Food & Water", status: "Pending" },
+            { location: "Mathare", profile: "Mixed", stranded: 50, priority: "Low", action: "Monitor", status: "Rescued" },
+            { location: "Makongeni", profile: "Disabled", stranded: 10, priority: "High", action: "Immediate Airlift", status: "In-Progress" },
+            { location: "Dandora", profile: "Families", stranded: 35, priority: "Medium", action: "Evacuate to Shelter B", status: "Pending" }
+        ];
+
+        function loadIncidents() {
+            const tbody = document.getElementById("incident-table-body");
+            tbody.innerHTML = "";
+
+            mockData.forEach(incident => {
+                const row = document.createElement("tr");
+                row.className = `transition-all duration-300 ${incident.priority === "High" ? "bg-red-50 text-red-700 font-semibold" : "hover:bg-gray-50"}`;
+
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">${incident.location}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${incident.profile}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${incident.stranded}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">${incident.priority}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${incident.action}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                            incident.status === "Pending" ? "bg-yellow-100 text-yellow-800" :
+                            incident.status === "In-Progress" ? "bg-blue-100 text-blue-800" :
+                            "bg-green-100 text-green-800"
+                        }">${incident.status}</span>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        loadIncidents();
+        setInterval(loadIncidents, 15000);
+    </script>
+</body>
+</html>
