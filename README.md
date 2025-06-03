@@ -1,89 +1,135 @@
-# My Flask App
+# FloodZap
 
-This project is a Flask application designed to manage flood incident reports and shelter information. It includes functionalities for USSD interactions, a stakeholder dashboard, and AI integration using watsonx.ai.
+**Saving lives in 5 minutes using AI + USSD in climate-driven flood emergencies.**
 
-## Project Structure
+---
+
+## 🌍 Project Overview
+
+FloodZap is a climate resilience platform that delivers real-time flood alerts, rescue prioritization, and evacuation plans via USSD and an AI-powered backend. Built for low-connectivity regions like Budalangi, Kenya, it ensures communities without smartphones or internet still receive life-saving information and support.
+
+---
+
+## ❗ The Problem
+
+Each year, over 250 lives are lost to floods in Kenya. Despite warnings from agencies like KMD, NDMA, and KRCS, response efforts are delayed by poor coordination, siloed data, and inaccessible communication channels. Most citizens in high-risk areas do not receive alerts or evacuation guidance.
+
+---
+
+## ✅ Our Solution
+
+FloodZap bridges this gap with:
+
+* **USSD access (\*384#)**: Works on any mobile phone, no internet required
+* **AI engine (watsonx.ai + RAG)**: Prioritizes emergencies and retrieves rescue plans in real-time
+* **Dashboard**: Provides stakeholders like KRCS and NDMA with live incident data and shelter info
+
+---
+
+## 🎯 Key Features
+
+* 🔔 **Real-time alerts and evacuation plans via USSD** (Swahili/English)
+* 🧠 **watsonx.ai-powered RAG system** that pulls SOPs, shelter data, and forecasts from Milvus vector DB
+* 📊 **Web dashboard** for first responders and government coordination
+* 📍 **Focused MVP deployment** in Budalangi, with a scalable design for broader impact
+
+---
+
+## 💻 Tech Stack
+
+* **Backend**: Flask + SQLite + JSON (for quick iteration)
+* **AI/LLM**: IBM watsonx.ai using RAG for real-time document-informed responses
+* **Vector DB**: Milvus for stakeholder documents (SOPs, KMD risks, NDMA shelters)
+* **Frontend**: HTML/JS dashboard
+* **USSD**: Africa’s Talking integration
+* **Deployment**: Heroku (demo)
+
+---
+
+## 🧠 How AI is Used
+
+* Extracts and ranks relevant documents for each user emergency report
+* Generates tailored rescue responses: nearest shelter, risk level, action plan
+* Prioritizes vulnerable users (e.g., elderly, pregnant) and updates dashboard in real-time
+
+---
+
+## 🚀 Getting Started (Local Dev)
+
+1. Clone repo
+2. Create virtualenv and install requirements
+3. Add environment variables (`.env`)
+4. Run Flask server
+5. Test USSD flow via Africa’s Talking sandbox
+
+---
+
+## 🗂️ Project Structure
 
 ```
-my-flask-app
-├── app
-│   ├── __init__.py             # Flask app factory
-│   ├── routes/                 # API and view routes
-│   │   ├── __init__.py
-│   │   ├── ussd.py             # USSD menu logic
-│   │   ├── dashboard.py        # Stakeholder dashboard endpoints
-│   │   └── ai.py               # AI (watsonx.ai / RAG) logic
-│   │
-│   ├── services/               # External service integrations
-│   │   ├── __init__.py
-│   │   ├── watson_ai.py        # watsonx.ai request handler
-│   │   └── risk_engine.py      # Logic for risk assessment & prioritization
-│   │
-│   ├── models/                 # Data schemas or SQLite models
-│   │   ├── __init__.py
-│   │   ├── incident.py         # Flood incident reports
-│   │   ├── shelters.py         # Shelter locations/status
-│   │   └── users.py            # Community and stakeholder users
-│   │
-│   ├── static/                 # Static assets (optional for dashboard UI)
-│   └── templates/              # HTML templates (if using Flask frontend)
-│
-├── data/                       # Mock JSON and/or SQLite DBs
+FloodZap/
+├── data/
+│   ├── Budalangi Floods_ Kenyan Journalists On A Mission - Talk Africa.pdf
 │   ├── incidents.json
-│   ├── shelters.json
-│   └── safenow.db              # SQLite file (used in parallel)
-│
-├── tests/                      # Unit and integration tests
-│   └── test_ussd.py
-│
-├── config.py                   # Configuration variables (envs, keys)
-├── requirements.txt            # Python dependencies
-├── Procfile                    # Heroku deployment entry
-├── run.py                      # App entry point
-└── README.md                   # Project overview
+│   ├── safenow.db
+│   └── shelters.json
+├── FloodZap_User_Testing_Plan.md
+├── README.md
+├── requirements.txt
+├── src/
+│   ├── ai/
+│   │   ├── milvus_client.py
+│   │   ├── rag_pipeline.py
+│   │   ├── watsonx_client.py
+│   │   └── watsonx_rag.py
+│   ├── api/
+│   │   └── routes.py
+│   ├── app.py
+│   ├── dashboard/
+│   │   └── routes.py
+│   ├── db/
+│   │   └── models.py
+│   ├── ussd/
+│   │   └── handler.py
+│   └── utils/
+│       ├── error_handler.py
+│       ├── helpers.py
+│       └── logger.py
+├── static/
+│   └── dashboard.js
+├── templates/
+│   └── dashboard.html
+└── venv/                # Local Python virtual environment (not for production)
+    ├── bin/
+    ├── include/
+    ├── lib/
+    ├── lib64 -> lib
+    ├── pyvenv.cfg
+    └── README.md
 ```
 
-## Setup Instructions
+*Note: The `venv/` folder is for local development and should be excluded from version control.*
 
-1. **Clone the repository:**
-   ```
-   git clone <repository-url>
-   cd my-flask-app
-   ```
+---
 
-2. **Create a virtual environment:**
-   ```
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
+## 🛣️ Roadmap
 
-3. **Install dependencies:**
-   ```
-   pip install -r requirements.txt
-   ```
+* Add **Resilience Points** system for validated reporters
+* Expand to **Nigeria** and **Bangladesh**
+* Integrate **Twilio IVR** fallback
+* Train AI with real-time hydrology APIs
 
-4. **Run the application:**
-   ```
-   python run.py
-   ```
+---
 
-## Usage
+## 🧪 Testing Plan
 
-- Access the USSD menu through the designated endpoint.
-- View the stakeholder dashboard for incident and shelter information.
-- Utilize AI functionalities for enhanced decision-making.
+See `FloodZap_User_Testing_Plan` for field testing methods, success criteria, and metrics for iteration.
 
-## Testing
+---
 
-To run the tests, use the following command:
-```
-pytest tests/
-```
+## 🙌 Acknowledgements
 
-## Contributing
+* Kenya Red Cross Society, NDMA, KMD, WRA, and Budalangi community leaders for stakeholder alignment
+* IBM Call for Code for powering our vision with watsonx.ai
 
-Contributions are welcome! Please open an issue or submit a pull request for any enhancements or bug fixes.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
+---
