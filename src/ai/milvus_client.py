@@ -1,6 +1,8 @@
+from pymilvus import connections, Collection, FieldSchema, CollectionSchema, DataType, utility
+
 class MilvusClient:
+    """Client for interacting with Milvus vector database."""
     def __init__(self, host='localhost', port='19530'):
-        from pymilvus import connections, Collection, FieldSchema, CollectionSchema, DataType
         self.host = host
         self.port = port
         self.collection_name = 'flood_documents'
@@ -22,7 +24,6 @@ class MilvusClient:
             self.collection = Collection(name=self.collection_name, schema=schema)
 
     def _collection_exists(self):
-        from pymilvus import utility
         return utility.has_collection(self.collection_name)
 
     def insert_documents(self, documents, embeddings):
@@ -41,5 +42,4 @@ class MilvusClient:
             return results
 
     def disconnect(self):
-        from pymilvus import connections
         connections.disconnect()

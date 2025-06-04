@@ -1,4 +1,5 @@
 class WatsonXClient:
+    """Client for interacting with IBM watsonx.ai API."""
     def __init__(self, api_key, model_name):
         self.api_key = api_key
         self.model_name = model_name
@@ -24,9 +25,9 @@ class WatsonXClient:
             response.raise_for_status()
             return response.json().get("generated_text", "")
         except requests.exceptions.HTTPError as http_err:
-            self._handle_error(http_err)
+            return {"error": f"HTTP error: {http_err}"}
         except Exception as err:
-            self._handle_error(err)
+            return {"error": f"General error: {err}"}
 
     def _handle_error(self, error):
         # Placeholder for error handling logic

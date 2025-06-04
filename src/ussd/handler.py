@@ -1,6 +1,7 @@
 import os
-from flask import Flask, request
+from flask import Flask, request, Blueprint
 
+ussd_blueprint = Blueprint('ussd', __name__)
 
 def call_rag_engine(area, emergency, people, phone_number):
     """
@@ -12,12 +13,12 @@ def call_rag_engine(area, emergency, people, phone_number):
         f"Area: {area}\n"
         f"Emergency: {emergency}\n"
         f"Affected: {people}\n\n"
-        "Move to St. Peter’s Church using the main road. It’s safe.\n"
+        "Move to St. Peter's Church using the main road. It's safe.\n"
         "Rescue ETA: 10 mins. Stay calm.\n\n"
         "- FloodZap Team"
     )
 
-
+@ussd_blueprint.route("/", methods=["POST"])
 def send_ussd():
     session_id   = request.values.get("sessionId", None)
     serviceCode  = request.values.get("serviceCode", None)

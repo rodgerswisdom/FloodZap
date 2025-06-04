@@ -3,5 +3,5 @@ Flask-Cors==3.0.10
 requests==2.26.0
 python-dotenv==0.19.2
 ibm-watson==6.0.0
-milvus==2.0.0
+pymilvus==2.0.0
 AfricaTalking==1.0.0

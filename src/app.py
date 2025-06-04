@@ -1,5 +1,5 @@
 from flask import Flask
-from src.ussd.handler import ussd_blueprint, send_ussd
+from src.ussd.handler import ussd_blueprint
 from src.dashboard.routes import dashboard_blueprint
 from src.db.models import db
 

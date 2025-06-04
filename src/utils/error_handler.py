@@ -1,4 +1,5 @@
 class ErrorHandler:
+    """Centralized error handling for the API."""
     @staticmethod
     def handle_api_error(error):
         return {
@@ -26,3 +27,7 @@ class ErrorHandler:
             "error": "General Error",
             "message": str(error)
         }, 500
+
+    @staticmethod
+    def handle_error(error):
+        return ErrorHandler.handle_general_error(error)
